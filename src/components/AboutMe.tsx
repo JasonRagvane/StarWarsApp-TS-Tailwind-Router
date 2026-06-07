@@ -3,7 +3,7 @@ import {baseUrl, periodMonth} from "../utils/constants.ts";
 
 const AboutMe = () => {
     const [hero, setHero] = useState(() => {
-        const hero = JSON.parse(localStorage.getItem('hero'));
+        const hero = JSON.parse(localStorage.getItem('hero')!);
         if(hero && (Date.now() - hero.timestamp < periodMonth)) {
             return hero.payload;
         }

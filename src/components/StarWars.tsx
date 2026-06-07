@@ -1,10 +1,9 @@
 import {starWarsInfo} from "../utils/constants.ts";
+import Text from "./ui/Text.tsx";
 
 const StarWars = () => {
     return (
-        <div className="text-justify text-3xl leading-normal tracking-widest">
-            {starWarsInfo}
-        </div>
+    <Text>{starWarsInfo}</Text>
     )
 }
 
