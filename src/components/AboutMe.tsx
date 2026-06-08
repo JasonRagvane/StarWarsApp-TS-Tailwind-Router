@@ -1,7 +1,10 @@
 import {useEffect, useState} from "react";
 import {baseUrl, periodMonth} from "../utils/constants.ts";
+import {useParams} from "react-router";
 
 const AboutMe = () => {
+
+    const params = useParams();
     const [hero, setHero] = useState(() => {
         const hero = JSON.parse(localStorage.getItem('hero')!);
         if(hero && (Date.now() - hero.timestamp < periodMonth)) {
@@ -9,9 +12,11 @@ const AboutMe = () => {
         }
     });
 
+    console.log(params);
+    
     useEffect(() => {
         if (!hero) {
-            fetch(`${baseUrl}/v1/peoples/1`)
+            fetch(`${baseUrl}/v1/peoples/2`)
                 .then(res => res.json())
                 .then(data => {
                     const info = {

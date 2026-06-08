@@ -3,7 +3,7 @@
 interface ButtonProps {
     children: string;
     className?: string;
-}
+} 
 
 
 const Button = ({children,className}: ButtonProps) => {
