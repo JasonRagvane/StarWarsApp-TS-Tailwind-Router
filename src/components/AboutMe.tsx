@@ -1,22 +1,34 @@
 import {useEffect, useState} from "react";
-import {baseUrl, periodMonth} from "../utils/constants.ts";
+import {periodMonth, characters, defaultHero} from "../utils/constants.ts";
 import {useParams} from "react-router";
+import ErrorPage from "./ui/ErrorPage.tsx";
+import {useContext} from "react";
+import {SWContext} from "../utils/context.ts";
+
+
 
 const AboutMe = () => {
+    
+    const {heroID = defaultHero}= useParams();
+    const {changeHero} = useContext(SWContext);
 
-    const params = useParams();
+
     const [hero, setHero] = useState(() => {
-        const hero = JSON.parse(localStorage.getItem('hero')!);
+        const hero = JSON.parse(localStorage.getItem(heroID)!);
         if(hero && (Date.now() - hero.timestamp < periodMonth)) {
             return hero.payload;
         }
     });
 
-    console.log(params);
     
     useEffect(() => {
+
+if(!(heroID in characters)) {
+       return;
+    }
+changeHero(heroID);
         if (!hero) {
-            fetch(`${baseUrl}/v1/peoples/2`)
+            fetch(characters[heroID as keyof typeof characters].url)
                 .then(res => res.json())
                 .then(data => {
                     const info = {
@@ -30,7 +42,7 @@ const AboutMe = () => {
                         'Skin color': data.skin_color,
                     };
                     setHero(info);
-                    localStorage.setItem('hero', JSON.stringify({
+                    localStorage.setItem(heroID, JSON.stringify({
                         payload: info,
                         timestamp: Date.now()
                     }));
@@ -38,17 +50,24 @@ const AboutMe = () => {
         }
     }, []);
 
-    return (
+    return (heroID in characters) ? (
         <>
-            {(!!hero) &&
+            {!!(hero) &&
                 <div className={'text-3xl text-justify tracking-widest leading-14 ml-8'}>
                     {Object.keys(hero).map(key => (
-                        <p key={key}>{key}: {hero[key]}</p>
+                        <p key={key}>
+                            {key}:{hero[key]}
+                            </p>
                     ))}
                 </div>
             }
         </>
-    )
+    ) : <ErrorPage/>;
 }
 
 export default AboutMe;
+
+
+
+
+

@@ -2,20 +2,19 @@
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
-import {navItems} from "./utils/constants";
-import {useState} from "react";
 import {SWContext} from "./utils/context";
+import {useState} from "react";
+import {defaultHero} from "./utils/constants";
 
 function App() {
-    const [page, setPage] = useState<string>(navItems[0]);
-
+    const [hero, setHero] = useState(defaultHero);
     return (
         <div className={'mx-2'}>
-            <SWContext value={{page, changePage: setPage}}>
+            <SWContext.Provider value={{hero, changeHero: setHero}}>
                 <Header/>
                 <Main/>
-                <Footer/>
-            </SWContext>
+                <Footer/>           
+            </SWContext.Provider>
         </div>
     )
 }
