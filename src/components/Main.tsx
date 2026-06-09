@@ -14,7 +14,7 @@ const Main = () => {
 
     return(
         <Routes>
-            {[`/`,`/${navItems[0]}`].map(p => <Route key={p} path={p} element={<Home/>}/>)}
+            {[`/`,`/${navItems[0]}`,`${navItems[0]}/:heroID`].map(p => <Route key={p} path={p} element={<Home/>}/>)}
             {[`/${navItems[1]}`, `${navItems[1]}/:heroID`].map(p => <Route key={p} path={p} element={<AboutMe/>}/>)}
             <Route path={`/${navItems[2]}`} element={<StarWars/>}/>
             <Route path={`/${navItems[3]}`} element={<Contact/>}/>

@@ -1,18 +1,20 @@
 import {useContext} from "react";
 import {characters} from "../utils/constants";
 import {SWContext} from "../utils/context.ts";
+import {useParams,useNavigate} from "react-router";
+import {defaultHero} from "../utils/constants.ts";
 
 
 interface FriendProps {
     friend: string;
     pos: number;
-
 }
 
 const Friend = ({friend, pos}: FriendProps) => {
 
-    const {hero, changeHero} = useContext(SWContext);
-
+    const {changeHero} = useContext(SWContext);
+    const {heroID = defaultHero} = useParams();
+    const navigate = useNavigate();
     let styles = "w-full";
     if (pos === 9) {
         styles += " rounded-br-3xl";
@@ -21,13 +23,17 @@ const Friend = ({friend, pos}: FriendProps) => {
         styles += " rounded-bl-3xl";
     }
 
-    console.log(friend, hero);
-
+    
     
 
     
     return (
-        <img className={styles} src={characters[friend].img} alt="Friend" onClick={() => {changeHero(friend)}}/>
+        <img className={styles} src={characters[friend].img} alt="Friend" onClick={() => {
+            changeHero(friend)
+           if (friend !== heroID) {
+            navigate(`/home/${friend}`);
+           }
+        }}/>
     )
 }
 
