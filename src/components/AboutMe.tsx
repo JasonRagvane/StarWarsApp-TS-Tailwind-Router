@@ -1,18 +1,13 @@
 import {useEffect, useState} from "react";
-import {periodMonth, characters, defaultHero} from "../utils/constants.ts";
-import {useParams} from "react-router";
+import {periodMonth, characters} from "../utils/constants.ts";
 import ErrorPage from "./ui/ErrorPage.tsx";
-import {useContext} from "react";
-import {SWContext} from "../utils/context.ts";
+import { useValidHero } from "../hooks/customHooks.ts";
 
 
 
 const AboutMe = () => {
     
-    const {heroID = defaultHero}= useParams();
-    const {changeHero} = useContext(SWContext);
-
-
+    const {isHeroValid, heroID} = useValidHero();
     const [hero, setHero] = useState(() => {
         const hero = JSON.parse(localStorage.getItem(heroID)!);
         if(hero && (Date.now() - hero.timestamp < periodMonth)) {
@@ -22,12 +17,7 @@ const AboutMe = () => {
 
     
     useEffect(() => {
-
-if(!(heroID in characters)) {
-       return;
-    }
-changeHero(heroID);
-        if (!hero) {
+        if (!hero && isHeroValid) {
             fetch(characters[heroID as keyof typeof characters].url)
                 .then(res => res.json())
                 .then(data => {
@@ -48,9 +38,9 @@ changeHero(heroID);
                     }));
                 })
         }
-    }, []);
+    }, [hero, heroID,]);
 
-    return (heroID in characters) ? (
+    return (isHeroValid) ? (
         <>
             {!!(hero) &&
                 <div className={'text-3xl text-justify tracking-widest leading-14 ml-8'}>
