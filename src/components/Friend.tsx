@@ -1,8 +1,7 @@
-import {useContext} from "react";
-import {characters} from "../utils/constants";
-import {SWContext} from "../utils/context.ts";
-import {useParams,useNavigate} from "react-router";
-import {defaultHero} from "../utils/constants.ts";
+import { NavLink } from "react-router";
+import {characters, navItems} from "../utils/constants";
+
+
 
 
 interface FriendProps {
@@ -11,10 +10,8 @@ interface FriendProps {
 }
 
 const Friend = ({friend, pos}: FriendProps) => {
-
-    const {changeHero} = useContext(SWContext);
-    const {heroID = defaultHero} = useParams();
-    const navigate = useNavigate();
+    
+   
     let styles = "w-full";
     if (pos === 9) {
         styles += " rounded-br-3xl";
@@ -28,12 +25,9 @@ const Friend = ({friend, pos}: FriendProps) => {
 
     
     return (
-        <img className={styles} src={characters[friend].img} alt="Friend" onClick={() => {
-            changeHero(friend)
-           if (friend !== heroID) {
-            navigate(`/home/${friend}`);
-           }
-        }}/>
+        <NavLink to={`/${navItems[0].toLowerCase()}/${friend}`}>
+        <img className={styles} src={characters[friend].img} alt="Friend"/>
+        </NavLink>
     )
 }
 
