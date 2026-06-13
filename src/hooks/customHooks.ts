@@ -5,13 +5,15 @@ import {characters, defaultHero} from "../utils/constants";
 
 
 export const useValidHero = (): {heroID: string, isHeroValid: boolean} => {
-     const {changeHero} = useContext(SWContext);
+    const {changeHero, setIsError} = useContext(SWContext);
     const {heroID = defaultHero} = useParams();
 
     useEffect(() => {
         if(!(heroID in characters)) {
+            setIsError(true);
             return;
         }
+        setIsError(false);
         changeHero(heroID);
     
     },[heroID])

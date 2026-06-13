@@ -40,7 +40,7 @@ const AboutMe = () => {
         }
     }, [hero, heroID,]);
 
-    return (isHeroValid) ? (
+    return (isHeroValid && hero) ? (
         <>
             {!!(hero) &&
                 <div className={'text-3xl text-justify tracking-widest leading-14 ml-8'}>

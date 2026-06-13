@@ -8,9 +8,11 @@ import {defaultHero} from "./utils/constants";
 
 function App() {
     const [hero, setHero] = useState(defaultHero);
+    const [isError, setIsError] = useState(false);
+
     return (
         <div className={'mx-2'}>
-            <SWContext.Provider value={{hero, changeHero: setHero}}>
+            <SWContext.Provider value={{hero, changeHero: setHero, isError, setIsError}}>
                 <Header/>
                 <Main/>
                 <Footer/>           
